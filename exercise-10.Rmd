@@ -1,0 +1,107 @@
+---
+title: "exercise-10"
+author: "Jyhreh Johnson"
+date: "4/7/2022"
+output: 
+  html_document: 
+    highlight: zenburn
+    theme: readable
+---
+1. Load in the Kamilar and Cooper (2013) dataset.
+```{r}
+library(tidyverse)
+library(ggpubr)
+library(ggplot2)
+f <- "https://raw.githubusercontent.com/difiore/ada-2022-datasets/main/KamilarAndCooperData.csv"
+d <- read_csv(f, col_names = TRUE)
+head(d)
+```
+
+2. Plot lifespan (MaxLongevity_m) versus female body mass (Body mass female mean).
+```{r}
+#Plot lifespan v body mass
+par(mfrow = c(2, 2))
+plot(d$Body_mass_female_mean, d$MaxLongevity_m)
+plot(log(d$Body_mass_female_mean), d$MaxLongevity_m)
+plot(log(d$Body_mass_female_mean), log(d$MaxLongevity_m))
+```
+**Question** Is the relationship linear?
+- The relationship of the last two plots do appear to be linear, while the first plot does not show a linear relationship.
+
+**Question** How might you transform?
+-
+
+3. Run linear models of lifespan ~ female body mass, lifespan ~ log(female body mass), and log(lifespan) ~ log(female body mass).
+```{r}
+#Create the models
+ls_m1 <- lm(data = d, MaxLongevity_m ~ Body_mass_female_mean)
+ls_m2 <- lm(data = d, MaxLongevity_m ~ log(Body_mass_female_mean))
+ls_m3 <- lm(data = d, log(MaxLongevity_m) ~ log(Body_mass_female_mean))
+
+ls_m1
+ls_m2
+ls_m3
+```
+
+4. Generate the residuals for all three linear models, plot them in relation to the corresponding explanatory variable, and make histograms of the residuals.
+```{r}
+#Find the residuals
+m1_res <- ls_m1$residuals
+m2_res <- ls_m2$residuals
+m3_res <- ls_m3$residuals
+
+m1_res
+m2_res
+m3_res
+
+#Plot them in relation to the corresponding explanatory variable
+par(mfrow = c(2, 2))
+plot(ls_m1$model$Body_mass_female_mean, m1_res)
+plot(ls_m2$model$`log(Body_mass_female_mean)`, m2_res) 
+plot(ls_m3$model$`log(Body_mass_female_mean)`, m3_res)
+
+#make histograms
+par(mfrow = c(2, 2))
+hist(m1_res, xlim = c(-4 * sd(m1_res), 4 * sd(m1_res)), breaks = 20, main = "Histogram of Lifespan (Model 1) Residuals")
+
+hist(m2_res, xlim = c(-4 * sd(m2_res), 4 * sd(m2_res)), breaks = 20, main = "Histogram of Lifespan (Model 2) Residuals")
+
+hist(m3_res, xlim = c(-4 * sd(m3_res), 4 * sd(m3_res)), breaks = 20, main = "Histogram of Lifespan (Model 3) Residuals")
+```
+**Question** Do they appear to be normally distributed?
+- The histograms do seem to be normally distributed.
+
+5. Generate the QQ plots for all three linear models. 
+```{r}
+#Create QQ Plots
+ggqqplot(ls_m1$residuals)
+ggqqplot(ls_m2$residuals)
+ggqqplot(ls_m3$residuals)
+```
+**Question** Do they appear to be normally distributed?
+- Yes
+
+6. Run the plot command for all three models. 
+```{r}
+par(mfrow = c(2, 2))
+plot(ls_m1)
+plot(ls_m2)
+plot(ls_m3)
+```
+**Question** What do the plots suggest?
+-ls_m1: According to the plots, 
+
+7. Run a Shapiro-Wilk test on residuals for all three models.
+```{r}
+#Run the Shapiro-Wilk test
+s1 <- shapiro.test(ls_m1$residuals)
+s2 <- shapiro.test(ls_m2$residuals)
+s3 <- shapiro.test(ls_m3$residuals)
+
+s1
+s2
+s3
+```
+
+**Question** What do results suggest?
+-
