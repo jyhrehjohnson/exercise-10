@@ -60,6 +60,7 @@ plot(ls_m1$model$Body_mass_female_mean, m1_res)
 plot(ls_m2$model$`log(Body_mass_female_mean)`, m2_res) 
 plot(ls_m3$model$`log(Body_mass_female_mean)`, m3_res)
 
+
 #make histograms
 par(mfrow = c(2, 2))
 hist(m1_res, xlim = c(-4 * sd(m1_res), 4 * sd(m1_res)), breaks = 20, main = "Histogram of Lifespan (Model 1) Residuals")
