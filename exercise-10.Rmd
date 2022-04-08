@@ -28,9 +28,6 @@ plot(log(d$Body_mass_female_mean), log(d$MaxLongevity_m))
 **Question** Is the relationship linear?
 - The relationship of the last two plots do appear to be linear, while the first plot does not show a linear relationship.
 
-**Question** How might you transform?
--
-
 3. Run linear models of lifespan ~ female body mass, lifespan ~ log(female body mass), and log(lifespan) ~ log(female body mass).
 ```{r}
 #Create the models
@@ -80,7 +77,7 @@ ggqqplot(ls_m2$residuals)
 ggqqplot(ls_m3$residuals)
 ```
 **Question** Do they appear to be normally distributed?
-- Yes
+- Yes, as they more or less fall on or near the linear line. 
 
 6. Run the plot command for all three models. 
 ```{r}
@@ -89,8 +86,6 @@ plot(ls_m1)
 plot(ls_m2)
 plot(ls_m3)
 ```
-**Question** What do the plots suggest?
--ls_m1: According to the plots, 
 
 7. Run a Shapiro-Wilk test on residuals for all three models.
 ```{r}
@@ -103,6 +98,3 @@ s1
 s2
 s3
 ```
-
-**Question** What do results suggest?
--
